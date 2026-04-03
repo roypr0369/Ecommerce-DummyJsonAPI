@@ -38,7 +38,6 @@ public class ProductController {
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "30") @Min(1) @Max(100) int size
     ) {
-        // ── Strategy routing ─────────────────────────────────────────────────
         if (query != null && !query.isBlank()) {
             // Full-text search via Elasticsearch (with optional category filter)
             List<ProductResponse> results =

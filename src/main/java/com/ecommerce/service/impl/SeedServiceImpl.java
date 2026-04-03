@@ -22,28 +22,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Concrete implementation of ISeedService.
- *
- * Design Patterns / Principles:
- *
- *  - Template Method Pattern: seed() defines a fixed algorithm skeleton:
- *      1. Check idempotency
- *      2. fetchFromDummyJson()
- *      3. saveToMySQL()
- *      4. createEsIndexIfMissing()
- *      5. indexToElasticsearch()
- *    Each step is a separate protected/private method — easy to override or
- *    extend without touching the overall flow.
- *
- *  - SRP: this class is solely responsible for the one-time data ingestion
- *    pipeline. It has no query logic.
- *
- *  - DRY: all mapping goes through ProductMapper — no conversion code here.
- *
- *  - DIP: depends on interface ISeedService; DataSeeder runner never imports
- *    this class directly.
- */
 @Service
 public class SeedServiceImpl implements ISeedService {
 

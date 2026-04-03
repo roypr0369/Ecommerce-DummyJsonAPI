@@ -33,5 +33,4 @@ public class ProductResponse {
     private Integer minimumOrderQuantity;
     private String barcode;
     private List<ReviewResponse> reviews = new ArrayList<>();
-// getters + setters
 }

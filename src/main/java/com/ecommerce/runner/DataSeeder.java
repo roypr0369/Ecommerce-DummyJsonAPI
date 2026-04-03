@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 /**
  * Triggers the data seeding pipeline once the Spring application context
  * is fully loaded and the server is ready to accept connections.
- * Why ApplicationRunner over @PostConstruct?
- *   ApplicationRunner fires after the full context is ready (including DB
- *   connection pools), whereas @PostConstruct fires during bean construction
- *   before the datasource is confirmed healthy.
  */
 @Component
 public class DataSeeder implements ApplicationRunner {

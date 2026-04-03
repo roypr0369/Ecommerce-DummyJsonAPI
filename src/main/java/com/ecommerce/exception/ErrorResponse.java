@@ -1,6 +1,7 @@
 package com.ecommerce.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  *   "timestamp": "2024-03-01T10:30:00"
  * }
  */
+@Getter
 public class ErrorResponse {
 
     private int status;
@@ -33,10 +35,4 @@ public class ErrorResponse {
         this.path      = path;
         this.timestamp = LocalDateTime.now();
     }
-
-    public int getStatus()               { return status; }
-    public String getError()             { return error; }
-    public String getMessage()           { return message; }
-    public String getPath()              { return path; }
-    public LocalDateTime getTimestamp()  { return timestamp; }
 }

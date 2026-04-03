@@ -12,18 +12,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 /**
  * Centralised exception handler for all REST controllers.
- *
- * Design Patterns / Principles:
- *
- *  - OCP (Open/Closed): to handle a new exception type, just add a new
- *    @ExceptionHandler method here — no existing controller or handler is
- *    modified. Completely closed for modification.
- *
- *  - SRP: exception-to-response translation is the only responsibility of
- *    this class. Controllers and services never build error responses.
- *
- *  - DRY: without this class, every controller would need its own try/catch
- *    for ResourceNotFoundException — that logic now lives in exactly one place.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

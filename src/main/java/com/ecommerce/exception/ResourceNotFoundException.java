@@ -1,17 +1,14 @@
 package com.ecommerce.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Thrown when a requested resource does not exist in the data store.
- *
- * Design Principles:
- *  - SRP: this class has one job — signal "resource not found".
- *  - OCP: the GlobalExceptionHandler handles all exceptions centrally;
- *    adding new exception types never requires touching existing handlers.
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
+@Getter
 public class ResourceNotFoundException extends RuntimeException {
 
     private final String resourceName;
@@ -24,8 +21,4 @@ public class ResourceNotFoundException extends RuntimeException {
         this.fieldName    = fieldName;
         this.fieldValue   = fieldValue;
     }
-
-    public String getResourceName() { return resourceName; }
-    public String getFieldName()    { return fieldName; }
-    public Object getFieldValue()   { return fieldValue; }
 }

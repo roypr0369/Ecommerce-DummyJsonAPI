@@ -10,14 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Concrete implementation of ICategoryService.
- *
- * Design Principles:
- *  - SRP: handles only category retrieval — nothing else.
- *  - DIP: bound to ICategoryService interface; CategoryController
- *         never imports this class directly.
- */
 @Service
 public class CategoryServiceImpl implements ICategoryService {
 

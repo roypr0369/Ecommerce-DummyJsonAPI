@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * One tag per row — same normalisation rationale as ProductImage.
- */
 @Entity
 @Table(
     name = "product_tags",

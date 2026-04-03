@@ -6,13 +6,6 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * DTO for a single product returned by https://dummyjson.com/products.
- *
- * @JsonIgnoreProperties(ignoreUnknown = true) means we silently drop any
- * fields from the API that we haven't mapped — keeps the code forward-compatible.
- */
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DummyProduct {

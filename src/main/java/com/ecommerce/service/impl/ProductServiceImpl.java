@@ -22,26 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Concrete implementation of IProductService.
- *
- * Design Patterns / Principles:
- *
- *  - Strategy Pattern: the routing between MySQL and Elasticsearch is a
- *    runtime strategy decision made in the controller based on which query
- *    parameters are present. Each strategy (listProducts, filterByCategory,
- *    searchProducts) is encapsulated in its own method here.
- *
- *  - Facade Pattern: this class acts as a Facade over the ProductRepository
- *    and ElasticsearchOperations sub-systems. Controllers call one clean
- *    service method instead of orchestrating both systems themselves.
- *
- *  - SRP: this class handles product queries only. Mapping is delegated to
- *    ProductMapper. Seeding is in SeedServiceImpl.
- *
- *  - DIP: depends on the IProductService interface (via @Service) and
- *    injects ProductMapper/Repository through the constructor.
- */
 @Service
 public class ProductServiceImpl implements IProductService {
 
