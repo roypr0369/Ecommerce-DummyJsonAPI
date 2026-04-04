@@ -40,6 +40,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
       interval: 10s
@@ -147,14 +148,14 @@ services:
         condition: service_healthy
     volumes:
       - ./debezium/register-connector.json:/register-connector.json
-    command: >
-      sh -c "
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
         echo 'Registering Debezium MySQL connector...' &&
-        curl -sf -X POST http://kafka-connect:8083/connectors \
+        curl -f -X POST http://kafka-connect:8083/connectors \
           -H 'Content-Type: application/json' \
           -d @/register-connector.json &&
         echo 'Connector registered.'
-      "
     restart: on-failure
 
   # ── Spring Boot API ───────────────────────────────────────────────────────
