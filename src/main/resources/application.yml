@@ -5,34 +5,46 @@ spring:
   application:
     name: ecommerce-api
 
-  # ── MySQL ──────────────────────────────────────────────────────────────────
+  # ── MySQL ───────────────────────────────────────────────────────────────────
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:ecommerce}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${MYSQL_USER:ecommerce_user}
     password: ${MYSQL_PASSWORD:ecommerce_pass}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      connection-timeout: 60000      # wait up to 60s for a connection (useful on docker startup)
-      initialization-fail-timeout: -1 # don't fail startup if DB not immediately available
+      connection-timeout: 60000
+      initialization-fail-timeout: -1
       maximum-pool-size: 10
       minimum-idle: 2
 
   jpa:
     hibernate:
-      ddl-auto: update               # auto-create / update tables from entity classes
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
-  # ── Elasticsearch ──────────────────────────────────────────────────────────
+  # ── Elasticsearch ────────────────────────────────────────────────────────────
   elasticsearch:
     uris: http://${ES_HOST:localhost}:${ES_PORT:9200}
     connection-timeout: 10s
     socket-timeout: 30s
 
-# ── Actuator ──────────────────────────────────────────────────────────────────
+  # ── Kafka (Debezium CDC consumer) ────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ecommerce-es-indexer       # consumer group id for ES indexing
+      auto-offset-reset: earliest          # read from beginning on first startup
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false            # manual ack — never lose an event on crash
+    listener:
+      ack-mode: MANUAL_IMMEDIATE           # commit offset only after successful ES write
+
+# ── Actuator ────────────────────────────────────────────────────────────────────
 management:
   endpoints:
     web:
@@ -42,6 +54,11 @@ management:
     health:
       show-details: always
 
-# ── App-specific ──────────────────────────────────────────────────────────────
+# ── App-specific ─────────────────────────────────────────────────────────────────
 app:
   dummyjson-url: https://dummyjson.com/products?limit=0
+
+  # Debezium topic: {topic.prefix}.{database}.{table}
+  # Must match "topic.prefix" in debezium/register-connector.json
+  debezium:
+    products-topic: ecommerce.ecommerce.products
